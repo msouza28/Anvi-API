@@ -13,6 +13,12 @@ builder.Services.AddDbContext<AppDbContext>(op => {
 });
 
 builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
+builder.Services.AddScoped<IPublicacaoRepository, PublicacaoRepository>();
+
+builder.Services.AddControllers().AddNewtonsoftJson(op =>
+{
+    op.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+});
 
 var app = builder.Build();
 

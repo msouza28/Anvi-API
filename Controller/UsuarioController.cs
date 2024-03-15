@@ -14,14 +14,10 @@ namespace Anvi_API.Controller
 {
     [ApiController]
     [Route("v1/api/usuario")]
-    public class UsuarioController:ControllerBase
+    public class UsuarioController(IUsuarioRepository usuarioRepository) : ControllerBase
     {
-        private readonly AppDbContext _dbContext;
-        private readonly IUsuarioRepository _usuarioRepository;
-        public UsuarioController(AppDbContext dbContext, IUsuarioRepository usuarioRepository){
-            _usuarioRepository = usuarioRepository;
-            _dbContext = dbContext;
-        }
+       
+        private readonly IUsuarioRepository _usuarioRepository = usuarioRepository;
 
         [HttpGet]
         public async Task<IActionResult> GetAll(){

@@ -15,6 +15,7 @@ namespace Anvi_API.Dtos.usuario
         public string Email{ get; set; } = string.Empty;
 
         public string Senha{ get; set; } = string.Empty;
+        public bool IsAdm { get; set; }
         
     }
 }

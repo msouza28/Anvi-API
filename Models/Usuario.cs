@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
+using Anvi_API.Dtos.publicacao;
 
 namespace Anvi_API.Models
 {
@@ -26,7 +27,7 @@ namespace Anvi_API.Models
 
         public bool IsAdm { get; set;} = false;
         
-        public List<Publicacao> Publicacaos { get; set; } = new List<Publicacao>();
+        public List<Publicacao> Publicacoes { get; set; } = new List<Publicacao>();
     }
 
 }

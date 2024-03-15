@@ -14,7 +14,9 @@ namespace Anvi_API.Mappers
             Id = usuario.Id,
             NomeCompleto = usuario.NomeCompleto,
             Email = usuario.Email,
-            DataCadastro = usuario.DataCadastro
+            DataCadastro = usuario.DataCadastro,
+            IsAdm = usuario.IsAdm,
+            Publicacoes = usuario.Publicacoes.Select(p => p.ToPublicacaoDto()).ToList()
         };
        } 
     

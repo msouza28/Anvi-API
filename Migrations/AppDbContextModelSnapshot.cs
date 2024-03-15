@@ -19,7 +19,7 @@ namespace Anvi_API.Migrations
 
             modelBuilder.Entity("Anvi_API.Models.Imagem", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
@@ -27,19 +27,19 @@ namespace Anvi_API.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<int?>("PublicacaoId")
+                    b.Property<long>("PublicacaoId")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 
                     b.HasIndex("PublicacaoId");
 
-                    b.ToTable("Imagem");
+                    b.ToTable("Imagens");
                 });
 
             modelBuilder.Entity("Anvi_API.Models.Municipio", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
@@ -49,12 +49,19 @@ namespace Anvi_API.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Municipio");
+                    b.ToTable("Municipios");
                 });
 
             modelBuilder.Entity("Anvi_API.Models.Publicacao", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<long>("Id")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Comentario")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<long>("MunicipioId")
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("Status")
@@ -64,23 +71,19 @@ namespace Anvi_API.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<int?>("UsuarioId")
+                    b.Property<long?>("UsuarioId")
                         .HasColumnType("INTEGER");
-
-                    b.Property<string>("comentario")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
                     b.HasIndex("UsuarioId");
 
-                    b.ToTable("Publicacaos");
+                    b.ToTable("Publicacoes");
                 });
 
             modelBuilder.Entity("Anvi_API.Models.Usuario", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
@@ -92,7 +95,8 @@ namespace Anvi_API.Migrations
                         .IsRequired()
                         .HasColumnType("varchar(14)");
 
-                    b.Property<DateTime>("DataCadastro")
+                    b.Property<string>("DataCadastro")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Email")
@@ -119,7 +123,9 @@ namespace Anvi_API.Migrations
                 {
                     b.HasOne("Anvi_API.Models.Publicacao", "Publicacao")
                         .WithMany("Imagens")
-                        .HasForeignKey("PublicacaoId");
+                        .HasForeignKey("PublicacaoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Publicacao");
                 });
@@ -133,7 +139,7 @@ namespace Anvi_API.Migrations
                         .IsRequired();
 
                     b.HasOne("Anvi_API.Models.Usuario", "Usuario")
-                        .WithMany("Publicacaos")
+                        .WithMany("Publicacoes")
                         .HasForeignKey("UsuarioId");
 
                     b.Navigation("Municipio");
@@ -148,7 +154,7 @@ namespace Anvi_API.Migrations
 
             modelBuilder.Entity("Anvi_API.Models.Usuario", b =>
                 {
-                    b.Navigation("Publicacaos");
+                    b.Navigation("Publicacoes");
                 });
 #pragma warning restore 612, 618
         }

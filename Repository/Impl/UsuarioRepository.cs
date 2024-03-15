@@ -19,11 +19,11 @@ namespace Anvi_API.Repository.Impl
        }
         public async Task<List<Usuario>> GetAllUsuariosAsync()
         {
-            return await _context.Usuarios.ToListAsync();
+            return await _context.Usuarios.Include(p => p.Publicacoes).ToListAsync();
         }
         public  async Task<Usuario?> GetUsuarioByIdAsync(long id)
         {
-            return await _context.Usuarios.FindAsync(id);
+            return await _context.Usuarios.Include(p => p.Publicacoes).FirstOrDefaultAsync(i => i.Id == id);
         }
         public async Task<Usuario> CreateUsuarioAsync(Usuario usuarioModel)
         {
@@ -45,6 +45,11 @@ namespace Anvi_API.Repository.Impl
             }
             usuarioById.Email = requestDto.Email == "" ? usuarioById.Email : requestDto.Email;
             usuarioById.Senha = requestDto.Senha == "" ? usuarioById.Senha : requestDto.Senha;
+
+            if(usuarioById.IsAdm != requestDto.IsAdm){
+            usuarioById.IsAdm = requestDto.IsAdm;  
+            }
+            
             usuarioById.DataCadastro = usuarioById.DataCadastro;
 
            await _context.SaveChangesAsync();

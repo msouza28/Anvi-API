@@ -12,6 +12,11 @@ namespace Anvi_API.Data
         public AppDbContext(DbContextOptions options) : base(options){
         }
         public DbSet<Usuario> Usuarios {get;set;}
-        public DbSet<Publicacao> Publicacaos {get;set;}
+        public DbSet<Publicacao> Publicacoes {get;set;}
+
+        public DbSet<Municipio> Municipios { get; set; }
+
+        public DbSet<Imagem> Imagens { get; set; }
+
     }
 }
