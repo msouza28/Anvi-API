@@ -19,7 +19,7 @@ namespace Anvi_API.Migrations
 
             modelBuilder.Entity("Anvi_API.Models.Imagem", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
@@ -27,19 +27,20 @@ namespace Anvi_API.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<int?>("PublicacaoId")
+                    b.Property<long?>("PublicacaoId")
+                        .IsRequired()
                         .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 
                     b.HasIndex("PublicacaoId");
 
-                    b.ToTable("Imagem");
+                    b.ToTable("Imagens");
                 });
 
             modelBuilder.Entity("Anvi_API.Models.Municipio", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
@@ -49,12 +50,24 @@ namespace Anvi_API.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Municipio");
+                    b.ToTable("Municipios");
                 });
 
             modelBuilder.Entity("Anvi_API.Models.Publicacao", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Comentario")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("DataPubli")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<long>("MunicipioId")
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("Status")
@@ -64,23 +77,21 @@ namespace Anvi_API.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<int?>("UsuarioId")
+                    b.Property<long?>("UsuarioId")
                         .HasColumnType("INTEGER");
-
-                    b.Property<string>("comentario")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
+                    b.HasIndex("MunicipioId");
+
                     b.HasIndex("UsuarioId");
 
-                    b.ToTable("Publicacaos");
+                    b.ToTable("Publicacoes");
                 });
 
             modelBuilder.Entity("Anvi_API.Models.Usuario", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
@@ -92,8 +103,11 @@ namespace Anvi_API.Migrations
                         .IsRequired()
                         .HasColumnType("varchar(14)");
 
-                    b.Property<DateTime>("DataCadastro")
-                        .HasColumnType("TEXT");
+                    b.Property<string>("DataCadastro")
+                        .IsRequired()
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT")
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -119,7 +133,9 @@ namespace Anvi_API.Migrations
                 {
                     b.HasOne("Anvi_API.Models.Publicacao", "Publicacao")
                         .WithMany("Imagens")
-                        .HasForeignKey("PublicacaoId");
+                        .HasForeignKey("PublicacaoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Publicacao");
                 });
@@ -128,13 +144,14 @@ namespace Anvi_API.Migrations
                 {
                     b.HasOne("Anvi_API.Models.Municipio", "Municipio")
                         .WithMany()
-                        .HasForeignKey("Id")
+                        .HasForeignKey("MunicipioId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Anvi_API.Models.Usuario", "Usuario")
-                        .WithMany("Publicacaos")
-                        .HasForeignKey("UsuarioId");
+                        .WithMany("Publicacoes")
+                        .HasForeignKey("UsuarioId")
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.Navigation("Municipio");
 
@@ -148,7 +165,7 @@ namespace Anvi_API.Migrations
 
             modelBuilder.Entity("Anvi_API.Models.Usuario", b =>
                 {
-                    b.Navigation("Publicacaos");
+                    b.Navigation("Publicacoes");
                 });
 #pragma warning restore 612, 618
         }
