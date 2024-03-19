@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Anvi-API")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+fafb8f17a9672391fe9301a723a37bfe9b00f190")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+3319aa2939cb198942e718c577767295c4b66f38")]
 [assembly: System.Reflection.AssemblyProductAttribute("Anvi-API")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Anvi-API")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

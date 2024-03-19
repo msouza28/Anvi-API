@@ -5,7 +5,7 @@
 namespace Anvi_API.Migrations
 {
     /// <inheritdoc />
-    public partial class init : Migration
+    public partial class InitialCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -34,7 +34,7 @@ namespace Anvi_API.Migrations
                     Cnpj = table.Column<string>(type: "varchar(18)", nullable: false),
                     Email = table.Column<string>(type: "TEXT", nullable: false),
                     Senha = table.Column<string>(type: "varchar(10)", nullable: false),
-                    DataCadastro = table.Column<string>(type: "TEXT", nullable: false),
+                    DataCadastro = table.Column<string>(type: "TEXT", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP"),
                     IsAdm = table.Column<bool>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
@@ -46,19 +46,21 @@ namespace Anvi_API.Migrations
                 name: "Publicacoes",
                 columns: table => new
                 {
-                    Id = table.Column<long>(type: "INTEGER", nullable: false),
+                    Id = table.Column<long>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
                     UsuarioId = table.Column<long>(type: "INTEGER", nullable: true),
                     MunicipioId = table.Column<long>(type: "INTEGER", nullable: false),
                     Titulo = table.Column<string>(type: "TEXT", nullable: false),
                     Comentario = table.Column<string>(type: "TEXT", nullable: false),
-                    Status = table.Column<int>(type: "INTEGER", nullable: false)
+                    Status = table.Column<int>(type: "INTEGER", nullable: false),
+                    DataPubli = table.Column<string>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Publicacoes", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Publicacoes_Municipios_Id",
-                        column: x => x.Id,
+                        name: "FK_Publicacoes_Municipios_MunicipioId",
+                        column: x => x.MunicipioId,
                         principalTable: "Municipios",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -66,7 +68,8 @@ namespace Anvi_API.Migrations
                         name: "FK_Publicacoes_Usuarios_UsuarioId",
                         column: x => x.UsuarioId,
                         principalTable: "Usuarios",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -93,6 +96,11 @@ namespace Anvi_API.Migrations
                 name: "IX_Imagens_PublicacaoId",
                 table: "Imagens",
                 column: "PublicacaoId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Publicacoes_MunicipioId",
+                table: "Publicacoes",
+                column: "MunicipioId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Publicacoes_UsuarioId",

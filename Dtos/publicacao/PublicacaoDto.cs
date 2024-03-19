@@ -16,7 +16,7 @@ namespace Anvi_API.Dtos.publicacao
         public string Comentario { get; set; } = string.Empty;
         public int Status { get; set; }
         public string DataPubli { get;set;} =  DateTime.Now.ToString("dd/MM/yyyy");
-        public List<ImagemDto>? Imagens { get; set; }
+        public List<ImagemDto> Imagens { get; set; }
         
     }
 }

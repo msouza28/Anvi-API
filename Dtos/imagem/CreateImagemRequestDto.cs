@@ -5,9 +5,8 @@ using System.Threading.Tasks;
 
 namespace Anvi_API.Dtos.imagem
 {
-    public class ImagemDto
+    public class CreateImagemRequestDto
     {
-        public long Id { get; set; }
 
         public string CaminhoImg { get; set; } = string.Empty;
     }

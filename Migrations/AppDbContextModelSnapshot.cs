@@ -27,7 +27,8 @@ namespace Anvi_API.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<long>("PublicacaoId")
+                    b.Property<long?>("PublicacaoId")
+                        .IsRequired()
                         .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
@@ -55,9 +56,14 @@ namespace Anvi_API.Migrations
             modelBuilder.Entity("Anvi_API.Models.Publicacao", b =>
                 {
                     b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Comentario")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("DataPubli")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
@@ -75,6 +81,8 @@ namespace Anvi_API.Migrations
                         .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("MunicipioId");
 
                     b.HasIndex("UsuarioId");
 
@@ -97,7 +105,9 @@ namespace Anvi_API.Migrations
 
                     b.Property<string>("DataCadastro")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT")
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -134,13 +144,14 @@ namespace Anvi_API.Migrations
                 {
                     b.HasOne("Anvi_API.Models.Municipio", "Municipio")
                         .WithMany()
-                        .HasForeignKey("Id")
+                        .HasForeignKey("MunicipioId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Anvi_API.Models.Usuario", "Usuario")
                         .WithMany("Publicacoes")
-                        .HasForeignKey("UsuarioId");
+                        .HasForeignKey("UsuarioId")
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.Navigation("Municipio");
 

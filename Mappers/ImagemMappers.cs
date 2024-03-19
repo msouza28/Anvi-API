@@ -12,7 +12,6 @@ namespace Anvi_API.Mappers
         public static ImagemDto ToImagemDto(this Imagem imagemModel){
             return new ImagemDto{
                 Id = imagemModel.Id,
-                PublicacaoId = imagemModel.PublicacaoId,
                 CaminhoImg = imagemModel.CaminhoImg
             };
         }

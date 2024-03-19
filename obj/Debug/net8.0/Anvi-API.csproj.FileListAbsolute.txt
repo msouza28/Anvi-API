@@ -1,5 +1,3 @@
-C:\dev\Anvi-API\bin\Debug\net8.0\appsettings.Development.json
-C:\dev\Anvi-API\bin\Debug\net8.0\appsettings.json
 C:\dev\Anvi-API\bin\Debug\net8.0\Anvi-API.exe
 C:\dev\Anvi-API\bin\Debug\net8.0\Anvi-API.deps.json
 C:\dev\Anvi-API\bin\Debug\net8.0\Anvi-API.runtimeconfig.json

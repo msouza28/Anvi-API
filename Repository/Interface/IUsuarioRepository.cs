@@ -18,5 +18,7 @@ namespace Anvi_API.Repository.Interface
         public Task<Usuario?> UpdateUsuarioAsync(long id, UpdateUsuarioRequestDto requestDto);
 
         public Task<Usuario?> DeleteUsuario(long id);
+
+        public Task<bool> UsuarioExiste(long id);
     }
 }

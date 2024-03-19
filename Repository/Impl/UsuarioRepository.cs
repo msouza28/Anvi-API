@@ -67,5 +67,9 @@ namespace Anvi_API.Repository.Impl
             return usuarioById;
         }
 
+        public async Task<bool> UsuarioExiste(long id)
+        {
+            return  await _context.Usuarios.AnyAsync(u => u.Id == id);
+        }
     }
 }

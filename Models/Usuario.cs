@@ -9,6 +9,7 @@ namespace Anvi_API.Models
 {
     public class Usuario
     {
+
         public long Id { get; set; }
 
         public string NomeCompleto { get; set; } = string.Empty;
@@ -28,6 +29,7 @@ namespace Anvi_API.Models
         public bool IsAdm { get; set;} = false;
         
         public List<Publicacao> Publicacoes { get; set; } = new List<Publicacao>();
+
     }
 
 }
