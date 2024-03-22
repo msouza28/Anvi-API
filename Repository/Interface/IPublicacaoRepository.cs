@@ -13,6 +13,9 @@ namespace Anvi_API.Repository.Interface
         public Task<List<Publicacao>> GetAllPublicacao();
         public  Task<Publicacao?> GetByIdAsync(long id);
 
+        public Task<List<Publicacao>> GetAllByUsuarioId(long id);
+
+        public Task<Publicacao?> UpdatePublicacaoAsync(long id, UpdatePublicacaoRequestDto dto);
         public Task<Publicacao?> DeleteById(long id);
     }
 }

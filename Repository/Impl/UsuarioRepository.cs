@@ -19,11 +19,11 @@ namespace Anvi_API.Repository.Impl
        }
         public async Task<List<Usuario>> GetAllUsuariosAsync()
         {
-            return await _context.Usuarios.Include(p => p.Publicacoes).ToListAsync();
+            return await _context.Usuarios.ToListAsync();
         }
         public  async Task<Usuario?> GetUsuarioByIdAsync(long id)
         {
-            return await _context.Usuarios.Include(p => p.Publicacoes).FirstOrDefaultAsync(i => i.Id == id);
+            return await _context.Usuarios.FirstOrDefaultAsync(i => i.Id == id);
         }
         public async Task<Usuario> CreateUsuarioAsync(Usuario usuarioModel)
         {

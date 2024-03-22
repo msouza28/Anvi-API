@@ -37,6 +37,17 @@ namespace Anvi_API.Controller
             return Ok(publicacaoById.ToPublicacaoDto());
         }
 
+        [HttpGet]
+        [Route("usuario-{Id}")]
+        public async Task<IActionResult> GetAllByUsuarioId([FromRoute] long Id){
+            var publicacaoById = await _publicacaoRepository.GetAllByUsuarioId(Id);
+            if(publicacaoById == null){
+                return NotFound($"Não há publicações para esse usuário");
+            }
+            var publicacaoDto = publicacaoById.Select(s => s.ToPublicacaoDto());
+            return Ok(publicacaoDto);
+        }
+
         [HttpPost]
         public async Task<IActionResult> CreatePublicacao([FromBody] CreatePublicacaoRequestDto requestDto){
             
@@ -48,6 +59,17 @@ namespace Anvi_API.Controller
             var publicacao = await _publicacaoRepository.CreatePublicacaoAsync(requestDto);
 
             return CreatedAtAction(nameof(GetById), new {id = publicacao.Id}, publicacao.ToPublicacaoDto());
+        }
+
+        [HttpPut]
+        [Route("{id}")]
+        public async Task<IActionResult> UpdatePublicacao([FromRoute] long id, [FromBody] UpdatePublicacaoRequestDto requestDto){
+                var pubicacoById = await _publicacaoRepository.UpdatePublicacaoAsync(id, requestDto);
+                if(pubicacoById == null) {
+                    return NotFound($"Publicação com ID: {id} não encontrada.");
+                }
+
+            return CreatedAtAction(nameof(GetById), new {id = pubicacoById.Id}, pubicacoById.ToPublicacaoDto());;
         }
 
         [HttpDelete]
