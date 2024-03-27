@@ -19,6 +19,6 @@ namespace Anvi_API.Repository.Interface
 
         public Task<Usuario?> DeleteUsuario(long id);
 
-        public Task<bool> UsuarioExiste(long id);
+        public Task<bool> HasAccount(string email, string senha);
     }
 }

@@ -25,7 +25,7 @@ namespace Anvi_API.Controller
             var usuarioDto = usuarios.Select(u => u.ToUsuarioDto());
             return Ok(usuarioDto);
         }
-        [HttpGet("{id}")]
+        [HttpGet("{id:long}")]
        public async Task<IActionResult> GetById([FromRoute] long id){
             var usuarioById = await _usuarioRepository.GetUsuarioByIdAsync(id);
             if(usuarioById == null){
@@ -42,14 +42,21 @@ namespace Anvi_API.Controller
             }
 
             var usuarioModel = request.ToUsuarioFromCreateUsuarioRequestDto();
+
+            var cripSenha =  BCrypt.Net.BCrypt.HashPassword(request.Senha);
+            usuarioModel.Senha = cripSenha ;
             usuarioModel = await _usuarioRepository.CreateUsuarioAsync(usuarioModel);
             return CreatedAtAction(nameof(GetById), new {id = usuarioModel.Id}, usuarioModel.ToUsuarioDto());
        }
         
        [HttpPut]
-       [Route("{id}")]
+       [Route("{id:long}")]
        public async Task<IActionResult> Update([FromRoute] long id, [FromBody] UpdateUsuarioRequestDto requestDto){
            
+           if(requestDto.Senha != null){
+           var cripSenha =  BCrypt.Net.BCrypt.HashPassword(requestDto.Senha);
+           requestDto.Senha = cripSenha;
+           }
             var usuarioById = await _usuarioRepository.UpdateUsuarioAsync(id, requestDto);
            
             if(usuarioById == null){
@@ -70,7 +77,7 @@ namespace Anvi_API.Controller
        } 
 
        [HttpDelete]
-       [Route("{id}")]
+       [Route("{id:long}")]
        public async Task<IActionResult> Delete([FromRoute] long id){
 
             var usuarioById = await _usuarioRepository.DeleteUsuario(id);
@@ -78,6 +85,11 @@ namespace Anvi_API.Controller
                 return NotFound("Usuario com ID " + id + " não existe na base de dados.");
             }
             return NoContent();
+       }
+
+       [HttpPost("autenticacaoUsuario")]
+       public async Task<IActionResult> AutenticacaoUsuario([FromBody] AutenticacaoUsuarioDto requestDto){
+            return Ok(await _usuarioRepository.HasAccount(requestDto.Email, requestDto.Senha));
        }
     }
 }

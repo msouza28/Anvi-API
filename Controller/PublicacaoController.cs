@@ -28,7 +28,7 @@ namespace Anvi_API.Controller
             return Ok(publicacaoDto);
         }
         [HttpGet]
-        [Route("{id}")]
+        [Route("{id:long}")]
         public async Task<IActionResult> GetById([FromRoute] long id){
             var publicacaoById = await _publicacaoRepository.GetByIdAsync(id);
             if(publicacaoById == null){
@@ -37,8 +37,8 @@ namespace Anvi_API.Controller
             return Ok(publicacaoById.ToPublicacaoDto());
         }
 
-        [HttpGet]
-        [Route("usuario-{Id}")]
+        [HttpGet()]
+        [Route("usuario/{Id:long}")]
         public async Task<IActionResult> GetAllByUsuarioId([FromRoute] long Id){
             var publicacaoById = await _publicacaoRepository.GetAllByUsuarioId(Id);
             if(publicacaoById == null){
@@ -62,7 +62,7 @@ namespace Anvi_API.Controller
         }
 
         [HttpPut]
-        [Route("{id}")]
+        [Route("{id:long}")]
         public async Task<IActionResult> UpdatePublicacao([FromRoute] long id, [FromBody] UpdatePublicacaoRequestDto requestDto){
                 var pubicacoById = await _publicacaoRepository.UpdatePublicacaoAsync(id, requestDto);
                 if(pubicacoById == null) {
@@ -73,7 +73,7 @@ namespace Anvi_API.Controller
         }
 
         [HttpDelete]
-        [Route("{id}")]
+        [Route("{id:long}")]
         public async Task<IActionResult> DeletePublicacao([FromRoute] long id){
             var publicacaoById = await _publicacaoRepository.DeleteById(id);
             if(publicacaoById == null){
