@@ -69,7 +69,7 @@ namespace Anvi_API.Data
 
         modelBuilder.Entity<Usuario>()
             .Property(u => u.Senha)
-            .HasColumnType("varchar(10)");
+            .HasColumnType("varchar(100)");
     }
 
     }

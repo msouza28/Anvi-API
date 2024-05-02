@@ -70,5 +70,37 @@ namespace Anvi_API.Repository.Impl
             await _context.SaveChangesAsync();
             return publicacaoById;
         }
+
+        public async Task<Publicacao?> UpdatePublicacaoAsync(long id, UpdatePublicacaoRequestDto dto)
+        {
+            var publicacaoById = await _context.Publicacoes.Include(i => i.Imagens).FirstOrDefaultAsync(i => i.Id == id);
+           if(publicacaoById == null){
+            return null;
+           }       
+
+            publicacaoById.Titulo = dto.Titulo == "" ? publicacaoById.Titulo : dto.Titulo;
+            publicacaoById.Comentario = dto.Comentario == "" ? publicacaoById.Comentario : dto.Comentario;
+            publicacaoById.MunicipioId = dto.MunicipioId == publicacaoById.MunicipioId ? publicacaoById.MunicipioId : dto.MunicipioId;
+
+            List<Imagem> imgList = new List<Imagem>();
+            foreach(CreateImagemRequestDto iDto in dto.ImagensDto){
+                if(iDto.CaminhoImg == ""){
+                var i = new Imagem{
+                    PublicacaoId = publicacaoById.Id,
+                    CaminhoImg = iDto.CaminhoImg 
+                };
+                imgList.Add(i);
+                }
+            }
+            publicacaoById.Imagens = imgList;
+
+            await _context.SaveChangesAsync();
+            return publicacaoById;
+        }
+
+        public async Task<List<Publicacao>> GetAllByUsuarioId(long id)
+        {
+           return await _context.Publicacoes.Where(p => p.UsuarioId == id).Include(i => i.Imagens).ToListAsync();
+        }
     }
 }

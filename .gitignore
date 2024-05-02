@@ -1,0 +1,9 @@
+*.db
+.mono/
+obj/
+obj/Debug/net8.0/Anvi-API.AssemblyInfo.cs
+obj/Debug/net8.0/Anvi-API.AssemblyInfoInputs.cache
+obj/Debug/net8.0/Anvi-API.assets.cache
+obj/Debug/net8.0/Anvi-API.csproj.AssemblyReference.cache
+obj/Debug/net8.0/Anvi-API.GeneratedMSBuildEditorConfig.editorconfig
+

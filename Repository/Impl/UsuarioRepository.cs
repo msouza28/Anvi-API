@@ -19,11 +19,11 @@ namespace Anvi_API.Repository.Impl
        }
         public async Task<List<Usuario>> GetAllUsuariosAsync()
         {
-            return await _context.Usuarios.Include(p => p.Publicacoes).ToListAsync();
+            return await _context.Usuarios.ToListAsync();
         }
         public  async Task<Usuario?> GetUsuarioByIdAsync(long id)
         {
-            return await _context.Usuarios.Include(p => p.Publicacoes).FirstOrDefaultAsync(i => i.Id == id);
+            return await _context.Usuarios.FirstOrDefaultAsync(i => i.Id == id);
         }
         public async Task<Usuario> CreateUsuarioAsync(Usuario usuarioModel)
         {
@@ -45,10 +45,6 @@ namespace Anvi_API.Repository.Impl
             }
             usuarioById.Email = requestDto.Email == "" ? usuarioById.Email : requestDto.Email;
             usuarioById.Senha = requestDto.Senha == "" ? usuarioById.Senha : requestDto.Senha;
-
-            if(usuarioById.IsAdm != requestDto.IsAdm){
-            usuarioById.IsAdm = requestDto.IsAdm;  
-            }
             
             usuarioById.DataCadastro = usuarioById.DataCadastro;
 
@@ -67,9 +63,17 @@ namespace Anvi_API.Repository.Impl
             return usuarioById;
         }
 
-        public async Task<bool> UsuarioExiste(long id)
+        public async Task<bool> HasAccount(string email, string senha)
         {
-            return  await _context.Usuarios.AnyAsync(u => u.Id == id);
+             var usuario = await _context.Usuarios.FirstOrDefaultAsync(u => u.Email == email);
+
+                if (usuario != null)
+                {
+                    // Verifica se a senha fornecida corresponde à senha criptografada armazenada no banco de dados
+                    return BCrypt.Net.BCrypt.Verify(senha, usuario.Senha);
+                }
+
+            return false; 
         }
     }
 }

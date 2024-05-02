@@ -21,7 +21,7 @@ namespace Anvi_API.Models
 
         public string Email{ get; set; } = string.Empty;
 
-        [Column (TypeName = "varchar(10)")]
+        [Column (TypeName = "varchar(100)")]
         public string Senha{ get; set; } = string.Empty;
         
         public string DataCadastro { get; set; } = DateTime.Now.ToString("dd/MM/yyyy");
